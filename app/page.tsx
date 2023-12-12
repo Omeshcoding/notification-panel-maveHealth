@@ -129,12 +129,9 @@ export default function Home() {
   const [count, setCount] = useState(notification.length);
   const [activeMsg, setActiveMsg] = useState(true);
 
-  const handleClick = (e: any) => {
-    console.log(e.target.innerText);
-    if (e.target.innerText === 'Mark all as read') {
-      setCount(0);
-      setActiveMsg(false);
-    }
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setCount(0);
+    setActiveMsg(false);
   };
   return (
     <main className="w-full">
@@ -154,23 +151,27 @@ export default function Home() {
           </p>
         </div>
         <div className="py-4">
-          {notification.map((item) => (
-            <NotificationCard
-              key={item.id}
-              user={item.user}
-              event={item.event}
-              action={item.action}
-              message={item.message}
-              created_at={item.created_at}
-              id={item.id}
-              count={count}
-              setCount={setCount}
-              setActiveMsg={setActiveMsg}
-              activeMsg={activeMsg}
-              handleClick={handleClick}
-              media={item.media}
-            />
-          ))}
+          {count === 0 ? (
+            <h4 className="mx-auto text-center font-bold text-2xl border-red-600 border-2 w-[320px] py-2 text-[#747380] rounded-md">
+              No New Notification
+            </h4>
+          ) : (
+            notification.map((item) => (
+              <NotificationCard
+                key={item.id}
+                user={item.user}
+                event={item.event}
+                action={item.action}
+                message={item.message}
+                created_at={item.created_at}
+                id={item.id}
+                count={count}
+                setCount={setCount}
+                activeMsg={activeMsg}
+                media={item.media}
+              />
+            ))
+          )}
         </div>
       </div>
     </main>

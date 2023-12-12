@@ -23,8 +23,6 @@ type Notification = {
   count: number;
   activeMsg: boolean;
   setCount: React.Dispatch<React.SetStateAction<number>>;
-  setActiveMsg: React.Dispatch<React.SetStateAction<boolean>>;
-  handleClick: (event: any) => void;
 };
 
 const NotificationCard = ({
@@ -46,6 +44,30 @@ const NotificationCard = ({
       return setCount(count - 1);
     }
   };
+
+  const createdTime = (time: string) => {
+    const currentDate = new Date();
+    const postDate = new Date(time);
+
+    const timeDifference = currentDate.getTime() - postDate.getTime();
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (seconds < 60) {
+      return `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
+    } else if (minutes < 60) {
+      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+    } else if (hours < 24) {
+      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+    } else {
+      return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+    }
+  };
+
+  const timeCreated = createdTime(created_at);
+
   return (
     <>
       <div
@@ -65,7 +87,7 @@ const NotificationCard = ({
               <p className="text-[#5e6778]">
                 <span className="font-bold text-black hover:text-[#0a317b]">{`${user?.first_name} ${user?.last_name} `}</span>
                 {event}{' '}
-                <span className="text-[#0a317b]  font-bold hover-text-[#eee]">
+                <span className="text-[#0a317b] hover:text-[#2354af]  font-bold hover-text-[#eee]">
                   {action?.title}
                 </span>{' '}
                 <span
@@ -78,7 +100,7 @@ const NotificationCard = ({
               </p>
             </div>
           </div>
-          <p className="text-[#939dae]">{created_at}</p>
+          <p className="text-[#939dae]">{timeCreated}</p>
         </div>
         {media && (
           <img
