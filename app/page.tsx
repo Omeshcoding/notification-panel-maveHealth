@@ -175,7 +175,6 @@ export default function Home() {
       if (!isThrottled) {
         setIsThrottled(true);
         setTimeout(() => {
-          console.log(1);
           setNotification((prevNotification: NotificationType[]) => [
             newNotification,
             ...prevNotification,
